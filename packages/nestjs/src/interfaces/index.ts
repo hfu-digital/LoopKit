@@ -1,0 +1,1 @@
+export { LoopKitStorage } from './storage';

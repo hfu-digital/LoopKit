@@ -1,0 +1,29 @@
+{
+    "name": "loopkit-nestjs-example",
+    "private": true,
+    "version": "0.0.0",
+    "scripts": {
+        "build": "tsc",
+        "start": "node dist/main.js",
+        "start:dev": "ts-node-dev --respawn src/main.ts",
+        "prisma:generate": "prisma generate",
+        "prisma:migrate": "prisma migrate dev",
+        "seed": "ts-node src/seed.ts"
+    },
+    "dependencies": {
+        "@loopkit/nestjs": "workspace:*",
+        "@nestjs/common": "^11.0.0",
+        "@nestjs/core": "^11.0.0",
+        "@nestjs/platform-fastify": "^11.0.0",
+        "@prisma/client": "^6.3.0",
+        "fastify": "^5.2.0",
+        "reflect-metadata": "^0.2.0",
+        "rxjs": "^7.8.0"
+    },
+    "devDependencies": {
+        "prisma": "^6.3.0",
+        "typescript": "^5.7.0",
+        "ts-node-dev": "^2.0.0",
+        "ts-node": "^10.9.0"
+    }
+}

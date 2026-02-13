@@ -1,0 +1,103 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "sqlite"
+    url      = "file:./dev.db"
+}
+
+model LoopKitCard {
+    id          String   @id @default(uuid())
+    noteId      String
+    templateId  String
+    deckId      String
+    state       String   @default("new")
+    easeFactor  Float    @default(2.5)
+    interval    Float    @default(0)
+    dueDate     DateTime @default(now())
+    currentStep Int      @default(0)
+    lapseCount  Int      @default(0)
+    reviewCount Int      @default(0)
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+
+    note LoopKitNote @relation(fields: [noteId], references: [id], onDelete: Cascade)
+    deck LoopKitDeck @relation(fields: [deckId], references: [id])
+
+    @@unique([noteId, templateId])
+    @@index([deckId, state])
+    @@index([deckId, dueDate])
+    @@index([state])
+}
+
+model LoopKitNote {
+    id         String   @id @default(uuid())
+    noteTypeId String
+    fields     String
+    tags       String   @default("[]")
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
+
+    noteType LoopKitNoteType @relation(fields: [noteTypeId], references: [id])
+    cards    LoopKitCard[]
+
+    @@index([noteTypeId])
+}
+
+model LoopKitNoteType {
+    id        String   @id @default(uuid())
+    name      String   @unique
+    fields    String
+    templates String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    notes LoopKitNote[]
+}
+
+model LoopKitDeck {
+    id              String   @id @default(uuid())
+    name            String
+    description     String?
+    parentDeckId    String?
+    presetId        String?
+    configOverrides String?
+    createdAt       DateTime @default(now())
+    updatedAt       DateTime @updatedAt
+
+    parent   LoopKitDeck?      @relation("DeckHierarchy", fields: [parentDeckId], references: [id])
+    children LoopKitDeck[]     @relation("DeckHierarchy")
+    preset   LoopKitDeckPreset? @relation(fields: [presetId], references: [id])
+    cards    LoopKitCard[]
+    logs     LoopKitReviewLog[]
+
+    @@index([parentDeckId])
+}
+
+model LoopKitDeckPreset {
+    id        String   @id @default(uuid())
+    name      String
+    config    String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    decks LoopKitDeck[]
+}
+
+model LoopKitReviewLog {
+    id          String   @id @default(uuid())
+    cardId      String
+    deckId      String
+    grade       String
+    prevState   String
+    newState    String
+    reviewedAt  DateTime @default(now())
+    timeTakenMs Int
+
+    deck LoopKitDeck @relation(fields: [deckId], references: [id])
+
+    @@index([cardId])
+    @@index([deckId, reviewedAt])
+    @@index([reviewedAt])
+}

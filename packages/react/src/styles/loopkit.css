@@ -1,0 +1,452 @@
+:root {
+    --loopkit-primary: #6366f1;
+    --loopkit-primary-hover: #4f46e5;
+    --loopkit-grade-again: #ef4444;
+    --loopkit-grade-hard: #f97316;
+    --loopkit-grade-good: #22c55e;
+    --loopkit-grade-easy: #3b82f6;
+    --loopkit-bg: #ffffff;
+    --loopkit-bg-secondary: #f9fafb;
+    --loopkit-text: #1f2937;
+    --loopkit-text-muted: #6b7280;
+    --loopkit-border: #e5e7eb;
+    --loopkit-radius: 8px;
+    --loopkit-radius-sm: 4px;
+    --loopkit-font: system-ui, -apple-system, sans-serif;
+    --loopkit-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --loopkit-shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --loopkit-transition: 200ms ease;
+}
+
+/* Card Viewer */
+.loopkit-card-viewer {
+    background: var(--loopkit-bg);
+    border: 1px solid var(--loopkit-border);
+    border-radius: var(--loopkit-radius);
+    box-shadow: var(--loopkit-shadow);
+    padding: 24px;
+    min-height: 200px;
+    font-family: var(--loopkit-font);
+    color: var(--loopkit-text);
+}
+
+.loopkit-card-back {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--loopkit-border);
+}
+
+/* Grade Buttons */
+.loopkit-grade-buttons {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 16px;
+    font-family: var(--loopkit-font);
+}
+
+.loopkit-grade-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 20px;
+    border: none;
+    border-radius: var(--loopkit-radius);
+    cursor: pointer;
+    color: white;
+    font-weight: 600;
+    transition: opacity var(--loopkit-transition);
+    min-width: 72px;
+}
+
+.loopkit-grade-btn:hover:not(:disabled) { opacity: 0.85; }
+.loopkit-grade-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.loopkit-grade-again { background: var(--loopkit-grade-again); }
+.loopkit-grade-hard { background: var(--loopkit-grade-hard); }
+.loopkit-grade-good { background: var(--loopkit-grade-good); }
+.loopkit-grade-easy { background: var(--loopkit-grade-easy); }
+
+.loopkit-grade-interval {
+    font-size: 0.75em;
+    opacity: 0.85;
+    margin-top: 2px;
+}
+
+/* Session */
+.loopkit-session {
+    max-width: 640px;
+    margin: 0 auto;
+    font-family: var(--loopkit-font);
+    color: var(--loopkit-text);
+}
+
+.loopkit-session-progress {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.loopkit-progress-bar {
+    flex: 1;
+    height: 6px;
+    background: var(--loopkit-border);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.loopkit-progress-fill {
+    height: 100%;
+    background: var(--loopkit-primary);
+    transition: width var(--loopkit-transition);
+}
+
+.loopkit-progress-text {
+    font-size: 0.875em;
+    color: var(--loopkit-text-muted);
+    white-space: nowrap;
+}
+
+.loopkit-show-answer-btn,
+.loopkit-undo-btn,
+.loopkit-close-btn,
+.loopkit-study-btn,
+.loopkit-editor-submit {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: var(--loopkit-radius);
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background var(--loopkit-transition);
+    font-family: var(--loopkit-font);
+}
+
+.loopkit-show-answer-btn,
+.loopkit-study-btn,
+.loopkit-editor-submit {
+    background: var(--loopkit-primary);
+    color: white;
+    margin-top: 16px;
+}
+
+.loopkit-show-answer-btn:hover,
+.loopkit-study-btn:hover,
+.loopkit-editor-submit:hover {
+    background: var(--loopkit-primary-hover);
+}
+
+.loopkit-undo-btn {
+    background: transparent;
+    color: var(--loopkit-text-muted);
+    border: 1px solid var(--loopkit-border);
+    margin-top: 8px;
+}
+
+.loopkit-close-btn {
+    background: var(--loopkit-bg-secondary);
+    color: var(--loopkit-text);
+    border: 1px solid var(--loopkit-border);
+    margin-top: 16px;
+}
+
+/* Session Complete */
+.loopkit-session-complete {
+    text-align: center;
+    font-family: var(--loopkit-font);
+    color: var(--loopkit-text);
+}
+
+.loopkit-summary-grid {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.loopkit-summary-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px;
+    background: var(--loopkit-bg-secondary);
+    border-radius: var(--loopkit-radius);
+    min-width: 100px;
+}
+
+.loopkit-summary-value {
+    font-size: 1.5em;
+    font-weight: 700;
+}
+
+.loopkit-summary-label {
+    font-size: 0.8em;
+    color: var(--loopkit-text-muted);
+    margin-top: 4px;
+}
+
+.loopkit-grade-distribution {
+    display: flex;
+    border-radius: var(--loopkit-radius-sm);
+    overflow: hidden;
+    margin: 16px 0;
+    height: 28px;
+    font-size: 0.75em;
+    color: white;
+}
+
+.loopkit-dist-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+}
+.loopkit-dist-again { background: var(--loopkit-grade-again); }
+.loopkit-dist-hard { background: var(--loopkit-grade-hard); }
+.loopkit-dist-good { background: var(--loopkit-grade-good); }
+.loopkit-dist-easy { background: var(--loopkit-grade-easy); }
+
+/* Deck List */
+.loopkit-deck-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-family: var(--loopkit-font);
+}
+
+.loopkit-deck-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px;
+    background: var(--loopkit-bg);
+    border: 1px solid var(--loopkit-border);
+    border-radius: var(--loopkit-radius);
+    cursor: pointer;
+    transition: box-shadow var(--loopkit-transition);
+    width: 100%;
+    text-align: left;
+}
+
+.loopkit-deck-item:hover {
+    box-shadow: var(--loopkit-shadow-lg);
+}
+
+.loopkit-deck-name {
+    font-weight: 600;
+    color: var(--loopkit-text);
+}
+
+.loopkit-deck-desc {
+    font-size: 0.875em;
+    color: var(--loopkit-text-muted);
+    margin-top: 4px;
+}
+
+/* Deck Overview */
+.loopkit-deck-overview {
+    font-family: var(--loopkit-font);
+    color: var(--loopkit-text);
+}
+
+.loopkit-deck-counts {
+    display: flex;
+    gap: 16px;
+    margin: 16px 0;
+}
+
+.loopkit-count {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 24px;
+    border-radius: var(--loopkit-radius);
+    background: var(--loopkit-bg-secondary);
+}
+
+.loopkit-count-value { font-size: 1.5em; font-weight: 700; }
+.loopkit-count-label { font-size: 0.8em; color: var(--loopkit-text-muted); }
+
+.loopkit-count-new .loopkit-count-value { color: var(--loopkit-grade-easy); }
+.loopkit-count-learning .loopkit-count-value { color: var(--loopkit-grade-hard); }
+.loopkit-count-review .loopkit-count-value { color: var(--loopkit-grade-good); }
+
+/* Deck Tree */
+.loopkit-deck-tree { font-family: var(--loopkit-font); }
+
+.loopkit-tree-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.loopkit-tree-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.75em;
+    padding: 2px 4px;
+    color: var(--loopkit-text-muted);
+}
+
+.loopkit-tree-label {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px 8px;
+    border-radius: var(--loopkit-radius-sm);
+    color: var(--loopkit-text);
+    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    text-align: left;
+}
+
+.loopkit-tree-label:hover { background: var(--loopkit-bg-secondary); }
+
+.loopkit-tree-counts {
+    display: flex;
+    gap: 6px;
+    font-size: 0.8em;
+    margin-left: auto;
+}
+
+.loopkit-tree-new { color: var(--loopkit-grade-easy); }
+.loopkit-tree-learning { color: var(--loopkit-grade-hard); }
+.loopkit-tree-review { color: var(--loopkit-grade-good); }
+
+/* Card Editor */
+.loopkit-card-editor {
+    font-family: var(--loopkit-font);
+    color: var(--loopkit-text);
+}
+
+.loopkit-editor-field { margin-bottom: 16px; }
+
+.loopkit-editor-label {
+    display: block;
+    font-size: 0.875em;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.loopkit-required { color: var(--loopkit-grade-again); margin-left: 2px; }
+
+.loopkit-editor-input,
+.loopkit-editor-textarea,
+.loopkit-editor-select {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--loopkit-border);
+    border-radius: var(--loopkit-radius-sm);
+    font-size: 1em;
+    font-family: var(--loopkit-font);
+    color: var(--loopkit-text);
+    background: var(--loopkit-bg);
+    box-sizing: border-box;
+}
+
+.loopkit-editor-input:focus,
+.loopkit-editor-textarea:focus,
+.loopkit-editor-select:focus {
+    outline: none;
+    border-color: var(--loopkit-primary);
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+.loopkit-editor-error {
+    color: var(--loopkit-grade-again);
+    font-size: 0.875em;
+    margin-bottom: 12px;
+}
+
+.loopkit-editor-submit:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Stats */
+.loopkit-stats {
+    font-family: var(--loopkit-font);
+    color: var(--loopkit-text);
+}
+
+.loopkit-stats-grid {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.loopkit-stat-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px;
+    background: var(--loopkit-bg-secondary);
+    border-radius: var(--loopkit-radius);
+}
+
+.loopkit-stat-value { font-size: 1.5em; font-weight: 700; }
+.loopkit-stat-label { font-size: 0.8em; color: var(--loopkit-text-muted); }
+
+.loopkit-breakdown-bars {
+    display: flex;
+    border-radius: var(--loopkit-radius-sm);
+    overflow: hidden;
+    height: 28px;
+    font-size: 0.75em;
+    color: white;
+}
+
+.loopkit-bar { display: flex; align-items: center; justify-content: center; min-width: 0; }
+.loopkit-bar-new { background: var(--loopkit-grade-easy); }
+.loopkit-bar-learning { background: var(--loopkit-grade-hard); }
+.loopkit-bar-review { background: var(--loopkit-grade-good); }
+
+.loopkit-forecast-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+    height: 120px;
+    margin-top: 12px;
+}
+
+.loopkit-forecast-bar-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    justify-content: flex-end;
+}
+
+.loopkit-forecast-bar {
+    width: 100%;
+    background: var(--loopkit-primary);
+    border-radius: 2px 2px 0 0;
+    min-height: 2px;
+}
+
+.loopkit-forecast-label {
+    font-size: 0.7em;
+    color: var(--loopkit-text-muted);
+    margin-top: 4px;
+}
+
+/* Loading / Error */
+.loopkit-session-loading,
+.loopkit-session-error,
+.loopkit-deck-empty {
+    text-align: center;
+    padding: 40px;
+    color: var(--loopkit-text-muted);
+    font-family: var(--loopkit-font);
+}
+
+.loopkit-session-error { color: var(--loopkit-grade-again); }
