@@ -136,6 +136,18 @@ export class FlashcardController {
 }
 ```
 
+## Exported Services
+
+All services are automatically exported and injectable in any module that imports `LoopKitModule`:
+
+- `ReviewSessionService` — Build study queues and grade cards
+- `DeckService` — CRUD for decks with hierarchy support
+- `NoteService` — Create and manage study notes
+- `NoteTypeService` — Define note types with field schemas and templates
+- `ImportExportService` — CSV and JSON import/export
+- `CardGenerator` — Automatic card generation from notes
+- `LoopKitStorage` — The storage adapter instance
+
 ## Custom Storage Adapter
 
 Implement `LoopKitStorage` for any database:
