@@ -8,8 +8,8 @@ export interface DeckListProps {
 export function DeckList({ onDeckSelect, className = '' }: DeckListProps) {
     const { decks, loading, error } = useDecks();
 
-    if (loading) return <div className={`loopkit-deck-list ${className}`}>Loading decks...</div>;
-    if (error) return <div className={`loopkit-deck-list ${className}`}>Error: {error}</div>;
+    if (loading) return <div className={`loopkit-deck-list ${className}`} role="status">Loading decks...</div>;
+    if (error) return <div className={`loopkit-deck-list ${className}`} role="alert">Error: {error}</div>;
 
     return (
         <div className={`loopkit-deck-list ${className}`}>

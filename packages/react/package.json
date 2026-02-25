@@ -1,6 +1,6 @@
 {
     "name": "@loopkit/react",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "description": "React hooks and components for LoopKit flashcard engine — headless-first with pre-styled defaults",
     "type": "module",
     "main": "dist/loopkit-react.cjs",
@@ -8,9 +8,9 @@
     "types": "dist/index.d.ts",
     "exports": {
         ".": {
+            "types": "./dist/index.d.ts",
             "import": "./dist/loopkit-react.js",
-            "require": "./dist/loopkit-react.cjs",
-            "types": "./dist/index.d.ts"
+            "require": "./dist/loopkit-react.cjs"
         },
         "./styles.css": "./dist/styles.css"
     },
@@ -38,7 +38,8 @@
         "@vitejs/plugin-react": "^4.3.0",
         "vitest": "^3.0.0",
         "@testing-library/react": "^16.0.0",
-        "@testing-library/jest-dom": "^6.6.0"
+        "@testing-library/jest-dom": "^6.6.0",
+        "jsdom": "^25.0.0"
     },
     "license": "MIT",
     "repository": {

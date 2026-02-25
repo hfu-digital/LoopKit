@@ -47,7 +47,7 @@ export function SessionComplete({ summary, className = '', onClose }: SessionCom
                 </div>
             </div>
 
-            <div className="loopkit-grade-distribution">
+            <div className="loopkit-grade-distribution" aria-label="Grade distribution">
                 <div className="loopkit-dist-bar loopkit-dist-again" style={{ flex: summary.gradeDistribution.again }}>
                     {summary.gradeDistribution.again > 0 && `Again: ${summary.gradeDistribution.again}`}
                 </div>

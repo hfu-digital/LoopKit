@@ -29,7 +29,7 @@ export function ReviewSession({ deckId, className = '', onComplete }: ReviewSess
     if (session.sessionState === 'loading') {
         return (
             <div className={`loopkit-session ${className}`}>
-                <div className="loopkit-session-loading">Loading study session...</div>
+                <div className="loopkit-session-loading" role="status">Loading study session...</div>
             </div>
         );
     }
@@ -37,7 +37,7 @@ export function ReviewSession({ deckId, className = '', onComplete }: ReviewSess
     if (session.error) {
         return (
             <div className={`loopkit-session ${className}`}>
-                <div className="loopkit-session-error">{session.error}</div>
+                <div className="loopkit-session-error" role="alert">{session.error}</div>
             </div>
         );
     }
@@ -60,7 +60,13 @@ export function ReviewSession({ deckId, className = '', onComplete }: ReviewSess
     return (
         <div className={`loopkit-session ${className}`}>
             <div className="loopkit-session-progress">
-                <div className="loopkit-progress-bar">
+                <div
+                    className="loopkit-progress-bar"
+                    role="progressbar"
+                    aria-valuenow={session.progress.reviewed}
+                    aria-valuemin={0}
+                    aria-valuemax={session.progress.total}
+                >
                     <div
                         className="loopkit-progress-fill"
                         style={{

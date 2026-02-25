@@ -8,8 +8,8 @@ export interface StudyStatsProps {
 export function StudyStats({ deckId, className = '' }: StudyStatsProps) {
     const { stats, loading, error } = useStats(deckId);
 
-    if (loading) return <div className={`loopkit-stats ${className}`}>Loading stats...</div>;
-    if (error) return <div className={`loopkit-stats ${className}`}>Error: {error}</div>;
+    if (loading) return <div className={`loopkit-stats ${className}`} role="status">Loading stats...</div>;
+    if (error) return <div className={`loopkit-stats ${className}`} role="alert">Error: {error}</div>;
     if (!stats) return null;
 
     const retentionPct = Math.round(stats.retention * 100);
@@ -33,7 +33,7 @@ export function StudyStats({ deckId, className = '' }: StudyStatsProps) {
 
             <div className="loopkit-stats-breakdown">
                 <h3>Card States</h3>
-                <div className="loopkit-breakdown-bars">
+                <div className="loopkit-breakdown-bars" aria-label="Card state breakdown">
                     <div className="loopkit-bar loopkit-bar-new" style={{ flex: stats.breakdown.new }}>
                         New: {stats.breakdown.new}
                     </div>
@@ -48,7 +48,7 @@ export function StudyStats({ deckId, className = '' }: StudyStatsProps) {
 
             <div className="loopkit-stats-forecast">
                 <h3>Review Forecast</h3>
-                <div className="loopkit-forecast-chart">
+                <div className="loopkit-forecast-chart" aria-label="Review forecast">
                     {Object.entries(stats.forecast)
                         .slice(0, 14)
                         .map(([date, count]) => {
