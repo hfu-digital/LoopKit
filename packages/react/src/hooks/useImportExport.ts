@@ -48,7 +48,13 @@ export function useImport(): UseImportReturn {
             setError(null);
             try {
                 const json = await file.text();
-                const data = await api.post<ImportResult>('/import/json', JSON.parse(json));
+                let parsed: unknown;
+                try {
+                    parsed = JSON.parse(json);
+                } catch {
+                    throw new Error('Invalid JSON file: the file does not contain valid JSON');
+                }
+                const data = await api.post<ImportResult>('/import/json', parsed);
                 setResult(data);
                 return data;
             } catch (e) {

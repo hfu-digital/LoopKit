@@ -25,6 +25,7 @@ export function GradeButtons({ onGrade, nextIntervals, disabled = false, classNa
                     onClick={() => onGrade(grade)}
                     disabled={disabled}
                     type="button"
+                    aria-label={`Grade: ${GRADE_LABELS[grade]} (${nextIntervals[grade]})`}
                 >
                     <span className="loopkit-grade-label">{GRADE_LABELS[grade]}</span>
                     <span className="loopkit-grade-interval">{nextIntervals[grade]}</span>

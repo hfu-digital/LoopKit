@@ -9,8 +9,8 @@ export interface DeckOverviewProps {
 export function DeckOverview({ deckId, onStudy, className = '' }: DeckOverviewProps) {
     const { deck, counts, loading, error } = useDeck(deckId);
 
-    if (loading) return <div className={`loopkit-deck-overview ${className}`}>Loading...</div>;
-    if (error) return <div className={`loopkit-deck-overview ${className}`}>Error: {error}</div>;
+    if (loading) return <div className={`loopkit-deck-overview ${className}`} role="status">Loading...</div>;
+    if (error) return <div className={`loopkit-deck-overview ${className}`} role="alert">Error: {error}</div>;
     if (!deck) return null;
 
     return (

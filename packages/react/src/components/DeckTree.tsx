@@ -27,6 +27,8 @@ function TreeNode({
                         className="loopkit-tree-toggle"
                         onClick={() => setExpanded(!expanded)}
                         type="button"
+                        aria-expanded={expanded}
+                        aria-label={expanded ? 'Collapse deck' : 'Expand deck'}
                     >
                         {expanded ? '▼' : '▶'}
                     </button>
@@ -67,8 +69,8 @@ function TreeNode({
 export function DeckTree({ onDeckSelect, className = '' }: DeckTreeProps) {
     const { tree, loading, error } = useDeckTree();
 
-    if (loading) return <div className={`loopkit-deck-tree ${className}`}>Loading...</div>;
-    if (error) return <div className={`loopkit-deck-tree ${className}`}>Error: {error}</div>;
+    if (loading) return <div className={`loopkit-deck-tree ${className}`} role="status">Loading...</div>;
+    if (error) return <div className={`loopkit-deck-tree ${className}`} role="alert">Error: {error}</div>;
 
     return (
         <div className={`loopkit-deck-tree ${className}`}>

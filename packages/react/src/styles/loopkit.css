@@ -450,3 +450,17 @@
 }
 
 .loopkit-session-error { color: var(--loopkit-grade-again); }
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    .loopkit-progress-fill,
+    .loopkit-grade-btn,
+    .loopkit-show-answer-btn,
+    .loopkit-undo-btn,
+    .loopkit-close-btn,
+    .loopkit-study-btn,
+    .loopkit-editor-submit,
+    .loopkit-deck-item {
+        transition: none;
+    }
+}

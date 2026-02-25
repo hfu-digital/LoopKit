@@ -78,8 +78,9 @@ export function CardEditor({
         <form className={`loopkit-card-editor ${className}`} onSubmit={handleSubmit}>
             {!initialNote && (
                 <div className="loopkit-editor-field">
-                    <label className="loopkit-editor-label">Note Type</label>
+                    <label className="loopkit-editor-label" htmlFor="loopkit-note-type">Note Type</label>
                     <select
+                        id="loopkit-note-type"
                         className="loopkit-editor-select"
                         value={selectedNoteTypeId}
                         onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectedNoteTypeId(e.target.value)}
@@ -94,35 +95,41 @@ export function CardEditor({
                 </div>
             )}
 
-            {selectedNoteType?.fields.map((def) => (
-                <div key={def.name} className="loopkit-editor-field">
-                    <label className="loopkit-editor-label">
-                        {def.name}
-                        {def.required && <span className="loopkit-required">*</span>}
-                    </label>
-                    {def.type === 'richtext' ? (
-                        <textarea
-                            className="loopkit-editor-textarea"
-                            value={fields[def.name] ?? ''}
-                            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setFields({ ...fields, [def.name]: e.target.value })}
-                            required={def.required}
-                            rows={4}
-                        />
-                    ) : (
-                        <input
-                            className="loopkit-editor-input"
-                            type="text"
-                            value={fields[def.name] ?? ''}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFields({ ...fields, [def.name]: e.target.value })}
-                            required={def.required}
-                        />
-                    )}
-                </div>
-            ))}
+            {selectedNoteType?.fields.map((def) => {
+                const fieldId = `loopkit-field-${def.name.toLowerCase().replace(/\s+/g, '-')}`;
+                return (
+                    <div key={def.name} className="loopkit-editor-field">
+                        <label className="loopkit-editor-label" htmlFor={fieldId}>
+                            {def.name}
+                            {def.required && <span className="loopkit-required">*</span>}
+                        </label>
+                        {def.type === 'richtext' ? (
+                            <textarea
+                                id={fieldId}
+                                className="loopkit-editor-textarea"
+                                value={fields[def.name] ?? ''}
+                                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setFields({ ...fields, [def.name]: e.target.value })}
+                                required={def.required}
+                                rows={4}
+                            />
+                        ) : (
+                            <input
+                                id={fieldId}
+                                className="loopkit-editor-input"
+                                type="text"
+                                value={fields[def.name] ?? ''}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFields({ ...fields, [def.name]: e.target.value })}
+                                required={def.required}
+                            />
+                        )}
+                    </div>
+                );
+            })}
 
             <div className="loopkit-editor-field">
-                <label className="loopkit-editor-label">Tags</label>
+                <label className="loopkit-editor-label" htmlFor="loopkit-tags">Tags</label>
                 <input
+                    id="loopkit-tags"
                     className="loopkit-editor-input"
                     type="text"
                     value={tags}
@@ -131,7 +138,7 @@ export function CardEditor({
                 />
             </div>
 
-            {editor.error && <div className="loopkit-editor-error">{editor.error}</div>}
+            {editor.error && <div className="loopkit-editor-error" role="alert">{editor.error}</div>}
 
             <button
                 className="loopkit-editor-submit"

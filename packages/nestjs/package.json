@@ -1,6 +1,6 @@
 {
     "name": "@loopkit/nestjs",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "description": "Production-ready flashcard engine for NestJS — SM-2 SRS algorithm, Prisma adapter, content pipeline",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
