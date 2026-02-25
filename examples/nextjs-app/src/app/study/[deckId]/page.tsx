@@ -1,7 +1,7 @@
 'use client';
 
 import { useParams, useRouter } from 'next/navigation';
-import { ReviewSession } from '@loopkit/react';
+import { ReviewSession } from '@hfu.digital/loopkit-react';
 
 export default function StudyPage() {
     const params = useParams();

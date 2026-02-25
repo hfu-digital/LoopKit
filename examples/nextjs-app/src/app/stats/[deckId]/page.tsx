@@ -1,7 +1,7 @@
 'use client';
 
 import { useParams, useRouter } from 'next/navigation';
-import { StudyStats } from '@loopkit/react';
+import { StudyStats } from '@hfu.digital/loopkit-react';
 
 export default function StatsPage() {
     const params = useParams();

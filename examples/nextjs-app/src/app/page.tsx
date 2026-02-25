@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { DeckList, DeckOverview } from '@loopkit/react';
+import { DeckList, DeckOverview } from '@hfu.digital/loopkit-react';
 
 export default function Home() {
     const [selectedDeckId, setSelectedDeckId] = useState<string | null>(null);

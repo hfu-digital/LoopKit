@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import {
     LoopKitModule,
     PrismaLoopKitAdapter,
-} from '@loopkit/nestjs';
+} from '@hfu.digital/loopkit-nestjs';
 import { PrismaService } from './prisma.service';
 import { FlashcardController } from './flashcard.controller';
 

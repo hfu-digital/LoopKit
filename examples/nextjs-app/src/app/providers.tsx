@@ -1,6 +1,6 @@
 'use client';
 
-import { LoopKitProvider } from '@loopkit/react';
+import { LoopKitProvider } from '@hfu.digital/loopkit-react';
 
 export function Providers({ children }: { children: React.ReactNode }) {
     return (

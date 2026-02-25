@@ -1,5 +1,5 @@
 {
-    "name": "@loopkit/react",
+    "name": "@hfu.digital/loopkit-react",
     "version": "1.0.0",
     "description": "React hooks and components for LoopKit flashcard engine — headless-first with pre-styled defaults",
     "type": "module",

@@ -1,11 +1,11 @@
-# @loopkit/nestjs
+# @hfu.digital/loopkit-nestjs
 
 Production-ready flashcard engine for NestJS applications. Implements the SM-2 spaced repetition algorithm with a pluggable storage layer.
 
 ## Installation
 
 ```bash
-bun add @loopkit/nestjs
+bun add @hfu.digital/loopkit-nestjs
 ```
 
 ## Prisma Schema
@@ -109,7 +109,7 @@ Then run `prisma migrate dev`.
 
 ```typescript
 import { Module } from '@nestjs/common';
-import { LoopKitModule, PrismaLoopKitAdapter } from '@loopkit/nestjs';
+import { LoopKitModule, PrismaLoopKitAdapter } from '@hfu.digital/loopkit-nestjs';
 import { PrismaService } from './prisma.service';
 
 @Module({
@@ -125,7 +125,7 @@ export class AppModule {}
 Then inject services in your controllers:
 
 ```typescript
-import { ReviewSessionService, DeckService } from '@loopkit/nestjs';
+import { ReviewSessionService, DeckService } from '@hfu.digital/loopkit-nestjs';
 
 @Controller('loopkit')
 export class FlashcardController {
@@ -153,7 +153,7 @@ All services are automatically exported and injectable in any module that import
 Implement `LoopKitStorage` for any database:
 
 ```typescript
-import { LoopKitStorage } from '@loopkit/nestjs';
+import { LoopKitStorage } from '@hfu.digital/loopkit-nestjs';
 
 export class MyCustomAdapter extends LoopKitStorage {
     // Implement all abstract methods
@@ -165,7 +165,7 @@ export class MyCustomAdapter extends LoopKitStorage {
 Replace SM-2 with your own algorithm:
 
 ```typescript
-import { LoopKitModule, type SRSAlgorithm } from '@loopkit/nestjs';
+import { LoopKitModule, type SRSAlgorithm } from '@hfu.digital/loopkit-nestjs';
 
 class FSRSAlgorithm implements SRSAlgorithm {
     calculateNextState(card, grade, config, now) { /* ... */ }
@@ -187,7 +187,7 @@ import {
     createContentPipeline,
     createMarkdownTransform,
     createKatexTransform,
-} from '@loopkit/nestjs';
+} from '@hfu.digital/loopkit-nestjs';
 import { marked } from 'marked';
 import katex from 'katex';
 

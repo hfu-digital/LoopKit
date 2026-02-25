@@ -33,13 +33,13 @@ jobs:
                   node-version: 20
                   registry-url: https://registry.npmjs.org
 
-            - name: Publish @loopkit/nestjs
+            - name: Publish @hfu.digital/loopkit-nestjs
               working-directory: packages/nestjs
               run: bun publish --access public
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-            - name: Publish @loopkit/react
+            - name: Publish @hfu.digital/loopkit-react
               working-directory: packages/react
               run: bun publish --access public
               env:

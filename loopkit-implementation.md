@@ -10,8 +10,8 @@ LoopKit is a Turborepo monorepo producing two npm packages:
 
 | Package | npm Name | Tech |
 |---------|----------|------|
-| Backend | `@loopkit/nestjs` | NestJS DynamicModule, Prisma adapter, pure SRS engine |
-| Frontend | `@loopkit/react` | React 18/19, Vite library mode, headless hooks + pre-styled components |
+| Backend | `@hfu.digital/loopkit-nestjs` | NestJS DynamicModule, Prisma adapter, pure SRS engine |
+| Frontend | `@hfu.digital/loopkit-react` | React 18/19, Vite library mode, headless hooks + pre-styled components |
 
 ---
 
@@ -53,7 +53,7 @@ packages/nestjs/
 │   ├── errors/               # LoopKitError hierarchy
 │   └── dto/                  # validation DTOs
 ├── __tests__/                # vitest tests
-├── package.json              # @loopkit/nestjs
+├── package.json              # @hfu.digital/loopkit-nestjs
 ├── tsconfig.json             # extends base
 └── vitest.config.ts
 ```
@@ -75,7 +75,7 @@ packages/react/
 │   ├── components/           # pre-styled components
 │   ├── types/                # frontend-specific types
 │   └── utils/                # shared utilities
-├── package.json              # @loopkit/react
+├── package.json              # @hfu.digital/loopkit-react
 ├── tsconfig.json
 └── vite.config.ts            # library mode
 ```
@@ -339,8 +339,8 @@ export function createContentPipeline(transforms?: ContentTransform[]): ContentP
 Note: These rendering dependencies are added to the backend package. The frontend package will use the same pipeline via API responses or by importing directly.
 
 **Decision point:** The markdown/katex/highlight dependencies make the backend heavier. Consider:
-- Option A: Include them in `@loopkit/nestjs` (simpler DX, larger bundle)
-- Option B: Extract to `@loopkit/content` package (lighter core, extra install)
+- Option A: Include them in `@hfu.digital/loopkit-nestjs` (simpler DX, larger bundle)
+- Option B: Extract to `@hfu.digital/loopkit-content` package (lighter core, extra install)
 - **Recommendation: Option A for v1** — keep it simple, extract later if needed.
 
 **Task 4.3 — Template interpolation engine** (`packages/nestjs/src/domain/content-pipeline/template-interpolation.ts`)
@@ -781,7 +781,7 @@ All hooks:
 
 **Task 8.5 — Frontend types** (`packages/react/src/types/`)
 
-Re-export entity types from backend? **No** — frontend shouldn't depend on backend package. Instead, define a minimal `types.ts` with the same shapes. Or: extract shared types into a `@loopkit/types` package.
+Re-export entity types from backend? **No** — frontend shouldn't depend on backend package. Instead, define a minimal `types.ts` with the same shapes. Or: extract shared types into a `@hfu.digital/loopkit-types` package.
 
 **Recommendation for v1:** Duplicate the types in the frontend package. They're just interfaces — no runtime code. Extract to shared package in v2 if drift becomes an issue.
 
@@ -795,7 +795,7 @@ Re-export entity types from backend? **No** — frontend shouldn't depend on bac
 - Ship with CSS custom properties (variables) for theming
 - Minimal default styles — functional, not beautiful
 - No CSS framework dependency
-- CSS shipped as a separate importable file: `import '@loopkit/react/styles.css'`
+- CSS shipped as a separate importable file: `import '@hfu.digital/loopkit-react/styles.css'`
 - Every component has a corresponding headless hook
 
 **Task 9.2 — Review components**

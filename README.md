@@ -17,15 +17,15 @@ Production-ready, open-source flashcard engine library. Implements the SM-2 spac
 
 | Package | npm | Description |
 |---------|-----|-------------|
-| [`@loopkit/nestjs`](packages/nestjs/) | NestJS | NestJS DynamicModule, Prisma adapter, SRS engine, content pipeline |
-| [`@loopkit/react`](packages/react/) | React | React hooks + pre-styled components for flashcard UIs |
+| [`@hfu.digital/loopkit-nestjs`](packages/nestjs/) | NestJS | NestJS DynamicModule, Prisma adapter, SRS engine, content pipeline |
+| [`@hfu.digital/loopkit-react`](packages/react/) | React | React hooks + pre-styled components for flashcard UIs |
 
 ## Quick Start
 
 ### Backend (NestJS)
 
 ```typescript
-import { LoopKitModule, PrismaLoopKitAdapter } from '@loopkit/nestjs';
+import { LoopKitModule, PrismaLoopKitAdapter } from '@hfu.digital/loopkit-nestjs';
 
 @Module({
     imports: [
@@ -40,8 +40,8 @@ export class AppModule {}
 ### Frontend (React)
 
 ```tsx
-import { LoopKitProvider, ReviewSession } from '@loopkit/react';
-import '@loopkit/react/styles.css';
+import { LoopKitProvider, ReviewSession } from '@hfu.digital/loopkit-react';
+import '@hfu.digital/loopkit-react/styles.css';
 
 function App() {
     return (
