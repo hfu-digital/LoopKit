@@ -100,6 +100,15 @@ function MyReviewUI() {
 | `useExport()` | CSV/JSON export |
 | `useTags()` | All tags |
 
+## Accessibility
+
+All pre-styled components include proper ARIA attributes:
+
+- Progress bars use `role="progressbar"` with `aria-valuenow`/`aria-valuemin`/`aria-valuemax`
+- Loading states use `role="status"`
+- Error messages use `role="alert"`
+- Grade distribution and forecast charts include `aria-label` descriptions
+
 ## Theming
 
 Override CSS custom properties:
