@@ -6,8 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 LoopKit is a production-ready flashcard engine library implementing the SM-2 spaced repetition algorithm. It's a **Turborepo monorepo** producing two npm packages:
 
-- **`@loopkit/nestjs`** — NestJS DynamicModule with Prisma adapter, SRS engine, and content pipeline
-- **`@loopkit/react`** — React hooks and pre-styled components for flashcard UIs
+- **`@hfu.digital/loopkit-nestjs`** — NestJS DynamicModule with Prisma adapter, SRS engine, and content pipeline
+- **`@hfu.digital/loopkit-react`** — React hooks and pre-styled components for flashcard UIs
 
 ## Commands
 
@@ -45,7 +45,7 @@ cd packages/react && bunx vitest run __tests__/hooks.test.tsx
 
 Build tasks have `dependsOn: ["^build"]` — packages build in dependency order. `dev` and `clean` are not cached. `lint` and `test` depend on `^build`.
 
-### @loopkit/nestjs (`packages/nestjs/`)
+### @hfu.digital/loopkit-nestjs (`packages/nestjs/`)
 
 **Build**: `tsc` → `dist/` (CommonJS)
 
@@ -72,7 +72,7 @@ LoopKitModule.register({
 })
 ```
 
-### @loopkit/react (`packages/react/`)
+### @hfu.digital/loopkit-react (`packages/react/`)
 
 **Build**: Vite library mode → `dist/loopkit-react.js` (ESM) + `dist/loopkit-react.cjs` (CJS). Types via `tsc --emitDeclarationOnly`. CSS copied to `dist/styles.css`.
 

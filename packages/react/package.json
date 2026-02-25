@@ -1,5 +1,5 @@
 {
-    "name": "@loopkit/react",
+    "name": "@hfu.digital/loopkit-react",
     "version": "1.0.0",
     "description": "React hooks and components for LoopKit flashcard engine — headless-first with pre-styled defaults",
     "type": "module",
@@ -40,6 +40,10 @@
         "@testing-library/react": "^16.0.0",
         "@testing-library/jest-dom": "^6.6.0",
         "jsdom": "^25.0.0"
+    },
+    "publishConfig": {
+        "access": "public",
+        "registry": "https://registry.npmjs.org/"
     },
     "license": "MIT",
     "repository": {

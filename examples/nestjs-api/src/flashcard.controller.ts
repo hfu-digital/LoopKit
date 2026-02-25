@@ -7,7 +7,7 @@ import {
     ImportExportService,
     LoopKitStorage,
     type Grade,
-} from '@loopkit/nestjs';
+} from '@hfu.digital/loopkit-nestjs';
 
 @Controller()
 export class FlashcardController {

@@ -8,7 +8,7 @@
         "start": "next start"
     },
     "dependencies": {
-        "@loopkit/react": "workspace:*",
+        "@hfu.digital/loopkit-react": "workspace:*",
         "next": "^15.2.0",
         "react": "^19.0.0",
         "react-dom": "^19.0.0"

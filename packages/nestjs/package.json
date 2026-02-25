@@ -1,5 +1,5 @@
 {
-    "name": "@loopkit/nestjs",
+    "name": "@hfu.digital/loopkit-nestjs",
     "version": "1.0.0",
     "description": "Production-ready flashcard engine for NestJS — SM-2 SRS algorithm, Prisma adapter, content pipeline",
     "main": "dist/index.js",
@@ -42,6 +42,10 @@
     },
     "dependencies": {
         "papaparse": "^5.5.0"
+    },
+    "publishConfig": {
+        "access": "public",
+        "registry": "https://registry.npmjs.org/"
     },
     "license": "MIT",
     "repository": {

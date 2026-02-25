@@ -2,7 +2,7 @@
 
 ## 1.0.0 (2026-02-25)
 
-### @loopkit/nestjs
+### @hfu.digital/loopkit-nestjs
 
 **Features**
 - SM-2 spaced repetition algorithm with pluggable `SRSAlgorithm` interface
@@ -18,7 +18,7 @@
 **Bug Fixes**
 - Guarded `JSON.parse` in import to provide user-friendly errors for invalid files
 
-### @loopkit/react
+### @hfu.digital/loopkit-react
 
 **Features**
 - `LoopKitProvider` context with configurable API URL and custom fetcher

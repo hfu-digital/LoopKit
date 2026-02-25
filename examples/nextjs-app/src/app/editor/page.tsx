@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { CardEditor, useDecks } from '@loopkit/react';
+import { CardEditor, useDecks } from '@hfu.digital/loopkit-react';
 
 export default function EditorPage() {
     const { decks } = useDecks();

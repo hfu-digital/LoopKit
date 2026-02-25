@@ -1,11 +1,11 @@
-# @loopkit/react
+# @hfu.digital/loopkit-react
 
 React hooks and pre-styled components for LoopKit flashcard engine. Headless-first design — use the hooks directly or the included components.
 
 ## Installation
 
 ```bash
-bun add @loopkit/react
+bun add @hfu.digital/loopkit-react
 ```
 
 ## Setup
@@ -13,8 +13,8 @@ bun add @loopkit/react
 Wrap your app with `LoopKitProvider`:
 
 ```tsx
-import { LoopKitProvider } from '@loopkit/react';
-import '@loopkit/react/styles.css';
+import { LoopKitProvider } from '@hfu.digital/loopkit-react';
+import '@hfu.digital/loopkit-react/styles.css';
 
 function App() {
     return (
@@ -41,7 +41,7 @@ Pass a custom `fetcher` for authentication:
 ### Pre-styled component
 
 ```tsx
-import { ReviewSession } from '@loopkit/react';
+import { ReviewSession } from '@hfu.digital/loopkit-react';
 
 <ReviewSession
     deckId="deck-123"
@@ -52,7 +52,7 @@ import { ReviewSession } from '@loopkit/react';
 ### Headless hook
 
 ```tsx
-import { useReviewSession } from '@loopkit/react';
+import { useReviewSession } from '@hfu.digital/loopkit-react';
 
 function MyReviewUI() {
     const session = useReviewSession();
