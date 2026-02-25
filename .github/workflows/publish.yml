@@ -5,6 +5,9 @@ on:
         tags:
             - 'v*'
 
+permissions:
+    contents: read
+
 jobs:
     publish:
         runs-on: ubuntu-latest
@@ -32,12 +35,12 @@ jobs:
 
             - name: Publish @loopkit/nestjs
               working-directory: packages/nestjs
-              run: npm publish --access public
+              run: bun publish --access public
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
             - name: Publish @loopkit/react
               working-directory: packages/react
-              run: npm publish --access public
+              run: bun publish --access public
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
