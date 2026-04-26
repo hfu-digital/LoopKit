@@ -12,6 +12,12 @@ export interface CardBase {
     currentStep: number;
     lapseCount: number;
     reviewCount: number;
+    /**
+     * 1-indexed ordinal that distinguishes multiple cards generated from the
+     * same template + note pair. Used by Cloze and Image-Occlusion notes
+     * (one card per cN / per mask). Defaults to 1 for plain templates.
+     */
+    cardOrdinal: number;
     createdAt: Date;
     updatedAt: Date;
 }
@@ -31,13 +37,65 @@ export interface NoteBase {
     updatedAt: Date;
 }
 
-export type FieldType = 'text' | 'richtext' | 'media';
+export type FieldType = 'text' | 'richtext' | 'media' | 'cloze' | 'typed' | 'occlusion';
 
 export interface FieldDef {
     name: string;
     ordinal: number;
     type: FieldType;
     required: boolean;
+}
+
+export type MediaKind = 'image' | 'audio' | 'video' | 'svg';
+
+export interface MediaReference {
+    id: string;
+    kind: MediaKind;
+    /** Resolved signed URL, populated by media-resolver transform at render time. */
+    url?: string;
+}
+
+export type OcclusionShape = 'rect' | 'ellipse' | 'polygon';
+
+export interface OcclusionMaskRect {
+    id: string;
+    shape: 'rect';
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    label?: string;
+    hint?: string;
+}
+
+export interface OcclusionMaskEllipse {
+    id: string;
+    shape: 'ellipse';
+    cx: number;
+    cy: number;
+    rx: number;
+    ry: number;
+    label?: string;
+    hint?: string;
+}
+
+export interface OcclusionMaskPolygon {
+    id: string;
+    shape: 'polygon';
+    points: { x: number; y: number }[];
+    label?: string;
+    hint?: string;
+}
+
+export type OcclusionMask = OcclusionMaskRect | OcclusionMaskEllipse | OcclusionMaskPolygon;
+
+export interface OcclusionData {
+    /** Reference to the underlying image media. */
+    mediaId: string;
+    /** Intrinsic dimensions of the source image (used for SVG viewBox). */
+    width: number;
+    height: number;
+    masks: OcclusionMask[];
 }
 
 export interface TemplateDef {
@@ -84,6 +142,7 @@ export interface CardStateSnapshot {
     currentStep: number;
     lapseCount: number;
     reviewCount: number;
+    cardOrdinal?: number;
 }
 
 export interface ReviewLog {

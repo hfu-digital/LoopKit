@@ -451,6 +451,68 @@
 
 .loopkit-session-error { color: var(--loopkit-grade-again); }
 
+/* Cloze deletion */
+.cloze {
+    border-radius: 3px;
+    padding: 0 2px;
+}
+.cloze-hidden {
+    background: var(--loopkit-text);
+    color: var(--loopkit-bg);
+    font-weight: 600;
+}
+.cloze-active {
+    background: rgba(99, 102, 241, 0.2);
+    color: var(--loopkit-primary);
+    font-weight: 600;
+}
+
+/* Type-the-answer */
+.loopkit-type-answer {
+    display: inline-block;
+    padding: 6px 10px;
+    border: 1px solid var(--loopkit-border);
+    border-radius: var(--loopkit-radius-sm);
+    font-size: 1em;
+    min-width: 200px;
+    margin: 4px 0;
+    font-family: var(--loopkit-font);
+}
+.loopkit-type-answer:focus {
+    outline: none;
+    border-color: var(--loopkit-primary);
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+.loopkit-type-answer-diff {
+    display: block;
+    margin: 8px 0;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 1em;
+}
+.loopkit-typed-correct { color: var(--loopkit-grade-good); }
+.loopkit-typed-wrong {
+    color: var(--loopkit-grade-again);
+    text-decoration: line-through;
+}
+.loopkit-typed-extra {
+    color: var(--loopkit-grade-again);
+    background: rgba(239, 68, 68, 0.1);
+}
+.loopkit-typed-missing {
+    color: var(--loopkit-grade-good);
+    background: rgba(34, 197, 94, 0.15);
+    text-decoration: underline;
+}
+
+/* Image occlusion */
+.loopkit-occlusion {
+    margin: 0;
+    line-height: 0;
+}
+.loopkit-mask-active {
+    cursor: help;
+}
+
 /* Reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
     .loopkit-progress-fill,

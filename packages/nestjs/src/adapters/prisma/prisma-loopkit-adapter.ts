@@ -78,6 +78,7 @@ function mapCard(raw: any): CardBase {
         currentStep: raw.currentStep,
         lapseCount: raw.lapseCount,
         reviewCount: raw.reviewCount,
+        cardOrdinal: raw.cardOrdinal ?? 1,
         createdAt: new Date(raw.createdAt),
         updatedAt: new Date(raw.updatedAt),
     };
@@ -165,6 +166,7 @@ export class PrismaLoopKitAdapter extends LoopKitStorage {
                     currentStep: input.currentStep ?? 0,
                     lapseCount: input.lapseCount ?? 0,
                     reviewCount: input.reviewCount ?? 0,
+                    cardOrdinal: input.cardOrdinal ?? 1,
                 },
             });
             return mapCard(raw);
@@ -188,6 +190,7 @@ export class PrismaLoopKitAdapter extends LoopKitStorage {
                     currentStep: input.currentStep ?? 0,
                     lapseCount: input.lapseCount ?? 0,
                     reviewCount: input.reviewCount ?? 0,
+                    cardOrdinal: input.cardOrdinal ?? 1,
                 })),
             });
             return result.count;

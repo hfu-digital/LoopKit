@@ -36,6 +36,7 @@ export class NoteTypeService {
                 const cardInputs = this.cardGenerator.generateCardsForNewTemplate(
                     template,
                     notes,
+                    noteType,
                     deck.id,
                     config,
                 );
@@ -56,44 +57,120 @@ export class NoteTypeService {
 
     async seedDefaults(): Promise<void> {
         const existing = await this.storage.findNoteTypes();
-        if (existing.some((t) => t.name === 'Basic')) return;
+        const have = (name: string) => existing.some((t) => t.name === name);
 
-        await this.storage.createNoteType({
-            name: 'Basic',
-            fields: [
-                { name: 'Front', ordinal: 0, type: 'text', required: true },
-                { name: 'Back', ordinal: 1, type: 'text', required: true },
-            ],
-            templates: [
-                {
-                    id: 'basic-front-back',
-                    name: 'Card 1',
-                    front: '{{Front}}',
-                    back: '{{FrontSide}}<hr id="answer">{{Back}}',
-                },
-            ],
-        });
+        if (!have('Basic')) {
+            await this.storage.createNoteType({
+                name: 'Basic',
+                fields: [
+                    { name: 'Front', ordinal: 0, type: 'text', required: true },
+                    { name: 'Back', ordinal: 1, type: 'text', required: true },
+                ],
+                templates: [
+                    {
+                        id: 'basic-front-back',
+                        name: 'Card 1',
+                        front: '{{Front}}',
+                        back: '{{FrontSide}}<hr id="answer">{{Back}}',
+                    },
+                ],
+            });
+        }
 
-        await this.storage.createNoteType({
-            name: 'Basic + Reverse',
-            fields: [
-                { name: 'Front', ordinal: 0, type: 'text', required: true },
-                { name: 'Back', ordinal: 1, type: 'text', required: true },
-            ],
-            templates: [
-                {
-                    id: 'basic-reverse-1',
-                    name: 'Card 1',
-                    front: '{{Front}}',
-                    back: '{{FrontSide}}<hr id="answer">{{Back}}',
-                },
-                {
-                    id: 'basic-reverse-2',
-                    name: 'Card 2',
-                    front: '{{Back}}',
-                    back: '{{FrontSide}}<hr id="answer">{{Front}}',
-                },
-            ],
-        });
+        if (!have('Basic + Reverse')) {
+            await this.storage.createNoteType({
+                name: 'Basic + Reverse',
+                fields: [
+                    { name: 'Front', ordinal: 0, type: 'text', required: true },
+                    { name: 'Back', ordinal: 1, type: 'text', required: true },
+                ],
+                templates: [
+                    {
+                        id: 'basic-reverse-1',
+                        name: 'Card 1',
+                        front: '{{Front}}',
+                        back: '{{FrontSide}}<hr id="answer">{{Back}}',
+                    },
+                    {
+                        id: 'basic-reverse-2',
+                        name: 'Card 2',
+                        front: '{{Back}}',
+                        back: '{{FrontSide}}<hr id="answer">{{Front}}',
+                    },
+                ],
+            });
+        }
+
+        if (!have('Basic Rich')) {
+            await this.storage.createNoteType({
+                name: 'Basic Rich',
+                fields: [
+                    { name: 'Front', ordinal: 0, type: 'richtext', required: true },
+                    { name: 'Back', ordinal: 1, type: 'richtext', required: true },
+                ],
+                templates: [
+                    {
+                        id: 'basic-rich-front-back',
+                        name: 'Card 1',
+                        front: '{{Front}}',
+                        back: '{{FrontSide}}<hr id="answer">{{Back}}',
+                    },
+                ],
+            });
+        }
+
+        if (!have('Cloze')) {
+            await this.storage.createNoteType({
+                name: 'Cloze',
+                fields: [
+                    { name: 'Text', ordinal: 0, type: 'cloze', required: true },
+                    { name: 'Extra', ordinal: 1, type: 'richtext', required: false },
+                ],
+                templates: [
+                    {
+                        id: 'cloze-card',
+                        name: 'Cloze',
+                        front: '{{cloze:Text}}',
+                        back: '{{cloze:Text}}{{#Extra}}<hr id="answer">{{Extra}}{{/Extra}}',
+                    },
+                ],
+            });
+        }
+
+        if (!have('Type In')) {
+            await this.storage.createNoteType({
+                name: 'Type In',
+                fields: [
+                    { name: 'Front', ordinal: 0, type: 'richtext', required: true },
+                    { name: 'Answer', ordinal: 1, type: 'typed', required: true },
+                ],
+                templates: [
+                    {
+                        id: 'type-in-card',
+                        name: 'Type In',
+                        front: '{{Front}}<br>{{type:Answer}}',
+                        back: '{{FrontSide}}<hr id="answer">{{type:Answer}}',
+                    },
+                ],
+            });
+        }
+
+        if (!have('Image Occlusion')) {
+            await this.storage.createNoteType({
+                name: 'Image Occlusion',
+                fields: [
+                    { name: 'Occlusion', ordinal: 0, type: 'occlusion', required: true },
+                    { name: 'Notes', ordinal: 1, type: 'richtext', required: false },
+                ],
+                templates: [
+                    {
+                        id: 'image-occlusion-card',
+                        name: 'Image Occlusion',
+                        front: '{{occlusion:Occlusion}}',
+                        back: '{{occlusion:Occlusion}}{{#Notes}}<hr id="answer">{{Notes}}{{/Notes}}',
+                    },
+                ],
+            });
+        }
     }
 }

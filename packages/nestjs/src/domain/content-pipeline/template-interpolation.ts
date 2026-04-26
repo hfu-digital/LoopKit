@@ -6,6 +6,10 @@
  * - {{#FieldName}}content{{/FieldName}} — content if field is non-empty
  * - {{^FieldName}}content{{/FieldName}} — content if field is empty
  * - {{FrontSide}} — insert the rendered front (back template only)
+ *
+ * Filter expressions (`{{filter:Field}}`, e.g. {{cloze:Text}}, {{type:Answer}},
+ * {{hint:Field}}, {{occlusion:Image}}) are LEFT INTACT for downstream transforms
+ * to handle.
  */
 export function interpolateTemplate(
     template: string,
@@ -22,8 +26,10 @@ export function interpolateTemplate(
         result = result.replace(/\{\{FrontSide\}\}/g, frontRendered);
     }
 
-    // Replace {{FieldName}} with field values
-    result = result.replace(/\{\{([^#^/}][^}]*)\}\}/g, (_match, fieldName: string) => {
+    // Replace {{FieldName}} with field values.
+    // Excludes patterns with `:` so filter expressions (e.g. {{cloze:Text}})
+    // pass through to downstream transforms.
+    result = result.replace(/\{\{([^#^/:}][^:}]*)\}\}/g, (_match, fieldName: string) => {
         const trimmed = fieldName.trim();
         if (trimmed === 'FrontSide') return frontRendered ?? '';
         return fields[trimmed] ?? '';

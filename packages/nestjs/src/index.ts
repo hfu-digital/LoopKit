@@ -17,7 +17,7 @@ export { previewNextIntervals, formatInterval } from './domain/srs/interval-prev
 export { getDayStart, isDueToday, getDaysSince } from './domain/srs/day-boundary';
 
 // Content pipeline
-export type { ContentPipeline } from './domain/content-pipeline/content-pipeline';
+export type { ContentPipeline, RenderOptions } from './domain/content-pipeline/content-pipeline';
 export {
     createContentPipeline,
     createMarkdownTransform,
@@ -26,6 +26,17 @@ export {
     createSanitizeTransform,
 } from './domain/content-pipeline/content-pipeline';
 export { interpolateTemplate } from './domain/content-pipeline/template-interpolation';
+export { createClozeTransform, countClozeOrdinals } from './domain/content-pipeline/cloze-transform';
+export {
+    createMediaResolverTransform,
+    extractMediaIds,
+} from './domain/content-pipeline/media-resolver-transform';
+export { createAnkiSoundTransform } from './domain/content-pipeline/anki-sound-transform';
+export { createTypeAnswerTransform } from './domain/content-pipeline/type-answer-transform';
+export {
+    createOcclusionTransform,
+    countOcclusionMasks,
+} from './domain/content-pipeline/occlusion-transform';
 
 // Statistics
 export {

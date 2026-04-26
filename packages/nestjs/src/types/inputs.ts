@@ -33,6 +33,8 @@ export interface CreateCardInput {
     currentStep?: number;
     lapseCount?: number;
     reviewCount?: number;
+    /** 1-indexed ordinal — used by Cloze and Image-Occlusion notes. Defaults to 1. */
+    cardOrdinal?: number;
 }
 
 export interface UpdateCardInput {

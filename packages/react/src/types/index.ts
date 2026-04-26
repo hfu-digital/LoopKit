@@ -8,11 +8,62 @@ export interface Field {
     ordinal: number;
 }
 
+export type FieldType = 'text' | 'richtext' | 'media' | 'cloze' | 'typed' | 'occlusion';
+
 export interface FieldDef {
     name: string;
     ordinal: number;
-    type: 'text' | 'richtext' | 'media';
+    type: FieldType;
     required: boolean;
+}
+
+export type MediaKind = 'image' | 'audio' | 'video' | 'svg';
+
+export interface MediaReference {
+    id: string;
+    kind: MediaKind;
+    url?: string;
+}
+
+export type OcclusionShape = 'rect' | 'ellipse' | 'polygon';
+
+export interface OcclusionMaskRect {
+    id: string;
+    shape: 'rect';
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    label?: string;
+    hint?: string;
+}
+
+export interface OcclusionMaskEllipse {
+    id: string;
+    shape: 'ellipse';
+    cx: number;
+    cy: number;
+    rx: number;
+    ry: number;
+    label?: string;
+    hint?: string;
+}
+
+export interface OcclusionMaskPolygon {
+    id: string;
+    shape: 'polygon';
+    points: { x: number; y: number }[];
+    label?: string;
+    hint?: string;
+}
+
+export type OcclusionMask = OcclusionMaskRect | OcclusionMaskEllipse | OcclusionMaskPolygon;
+
+export interface OcclusionData {
+    mediaId: string;
+    width: number;
+    height: number;
+    masks: OcclusionMask[];
 }
 
 export interface TemplateDef {
@@ -35,6 +86,7 @@ export interface CardBase {
     currentStep: number;
     lapseCount: number;
     reviewCount: number;
+    cardOrdinal: number;
     createdAt: string;
     updatedAt: string;
 }

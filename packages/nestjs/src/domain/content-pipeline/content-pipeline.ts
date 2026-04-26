@@ -2,9 +2,16 @@ import type { NoteBase, TemplateDef } from '../../types/entities';
 import type { RenderedCard, ContentTransform, RenderContext } from '../../types/rendering';
 import { interpolateTemplate } from './template-interpolation';
 
+export interface RenderOptions {
+    /** 1-indexed cloze/occlusion target. Required for Cloze and Image-Occlusion notes. */
+    cardOrdinal?: number;
+    /** Pre-resolved signed URLs for embedded media references (id → url). */
+    mediaUrls?: Record<string, string>;
+}
+
 export interface ContentPipeline {
     transforms: ContentTransform[];
-    render(note: NoteBase, template: TemplateDef): RenderedCard;
+    render(note: NoteBase, template: TemplateDef, options?: RenderOptions): RenderedCard;
 }
 
 /**
@@ -19,27 +26,31 @@ export function createContentPipeline(transforms?: ContentTransform[]): ContentP
     const pipeline: ContentPipeline = {
         transforms: transforms ?? [],
 
-        render(note: NoteBase, template: TemplateDef): RenderedCard {
+        render(note: NoteBase, template: TemplateDef, options?: RenderOptions): RenderedCard {
             const fields: Record<string, string> = {};
             for (const field of note.fields) {
                 fields[field.name] = field.value;
             }
 
-            const context: RenderContext = {
+            const baseContext: Omit<RenderContext, 'side'> = {
                 fields,
                 cardState: 'new',
+                cardOrdinal: options?.cardOrdinal,
+                mediaUrls: options?.mediaUrls,
             };
 
             // Render front
             let front = interpolateTemplate(template.front, fields);
+            const frontContext: RenderContext = { ...baseContext, side: 'front' };
             for (const transform of pipeline.transforms) {
-                front = transform(front, context);
+                front = transform(front, frontContext);
             }
 
             // Render back (with FrontSide available)
             let back = interpolateTemplate(template.back, fields, front);
+            const backContext: RenderContext = { ...baseContext, side: 'back' };
             for (const transform of pipeline.transforms) {
-                back = transform(back, context);
+                back = transform(back, backContext);
             }
 
             return { front, back };

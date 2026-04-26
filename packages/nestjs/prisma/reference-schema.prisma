@@ -22,13 +22,15 @@ model LoopKitCard {
     currentStep Int      @default(0)
     lapseCount  Int      @default(0)
     reviewCount Int      @default(0)
+    // 1-indexed; Cloze/Occlusion notes generate one card per cN / per mask.
+    cardOrdinal Int      @default(1)
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
 
     note LoopKitNote @relation(fields: [noteId], references: [id], onDelete: Cascade)
     deck LoopKitDeck @relation(fields: [deckId], references: [id])
 
-    @@unique([noteId, templateId])
+    @@unique([noteId, templateId, cardOrdinal])
     @@index([deckId, state])
     @@index([deckId, dueDate])
     @@index([state])

@@ -1,6 +1,6 @@
 {
     "name": "@hfu.digital/loopkit-nestjs",
-    "version": "2026.04.1",
+    "version": "2026.05.1",
     "description": "Production-ready flashcard engine for NestJS — SM-2 SRS algorithm, Prisma adapter, content pipeline",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
