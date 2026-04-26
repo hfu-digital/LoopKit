@@ -1,6 +1,5 @@
 {
   "lockfileVersion": 1,
-  "configVersion": 0,
   "workspaces": {
     "": {
       "name": "loopkit",
@@ -14,7 +13,7 @@
       "name": "loopkit-nestjs-example",
       "version": "0.0.0",
       "dependencies": {
-        "@loopkit/nestjs": "workspace:*",
+        "@hfu.digital/loopkit-nestjs": "workspace:*",
         "@nestjs/common": "^11.0.0",
         "@nestjs/core": "^11.0.0",
         "@nestjs/platform-fastify": "^11.0.0",
@@ -34,7 +33,7 @@
       "name": "loopkit-nextjs-example",
       "version": "0.0.0",
       "dependencies": {
-        "@loopkit/react": "workspace:*",
+        "@hfu.digital/loopkit-react": "workspace:*",
         "next": "^15.2.0",
         "react": "^19.0.0",
         "react-dom": "^19.0.0",
@@ -46,8 +45,8 @@
       },
     },
     "packages/nestjs": {
-      "name": "@loopkit/nestjs",
-      "version": "0.1.0",
+      "name": "@hfu.digital/loopkit-nestjs",
+      "version": "1.0.0",
       "dependencies": {
         "papaparse": "^5.5.0",
       },
@@ -79,8 +78,8 @@
       ],
     },
     "packages/react": {
-      "name": "@loopkit/react",
-      "version": "0.1.0",
+      "name": "@hfu.digital/loopkit-react",
+      "version": "1.0.0",
       "devDependencies": {
         "@testing-library/jest-dom": "^6.6.0",
         "@testing-library/react": "^16.0.0",
@@ -230,6 +229,10 @@
 
     "@fastify/proxy-addr": ["@fastify/proxy-addr@5.1.0", "", { "dependencies": { "@fastify/forwarded": "^3.0.0", "ipaddr.js": "^2.1.0" } }, "sha512-INS+6gh91cLUjB+PVHfu1UqcB76Sqtpyp7bnL+FYojhjygvOPA9ctiD/JDKsyD9Xgu4hUhCSJBPig/w7duNajw=="],
 
+    "@hfu.digital/loopkit-nestjs": ["@hfu.digital/loopkit-nestjs@workspace:packages/nestjs"],
+
+    "@hfu.digital/loopkit-react": ["@hfu.digital/loopkit-react@workspace:packages/react"],
+
     "@img/colour": ["@img/colour@1.0.0", "", {}, "sha512-A5P/LfWGFSl6nsckYtjw9da+19jB8hkJ6ACTGcDfEJ0aE+l2n2El7dsVM7UVHZQ9s2lmYMWlrS21YLy2IR1LUw=="],
 
     "@img/sharp-darwin-arm64": ["@img/sharp-darwin-arm64@0.34.5", "", { "optionalDependencies": { "@img/sharp-libvips-darwin-arm64": "1.2.4" }, "os": "darwin", "cpu": "arm64" }, "sha512-imtQ3WMJXbMY4fxb/Ndp6HBTNVtWCUI0WdobyheGf5+ad6xX8VIDO8u2xE4qc/fr08CKG/7dDseFtn6M6g/r3w=="],
@@ -293,10 +296,6 @@
     "@jridgewell/sourcemap-codec": ["@jridgewell/sourcemap-codec@1.5.5", "", {}, "sha512-cYQ9310grqxueWbl+WuIUIaiUaDcj7WOq5fVhEljNVgRfOUhY9fy2zTvfoqWsnebh8Sl70VScFbICvJnLKB0Og=="],
 
     "@jridgewell/trace-mapping": ["@jridgewell/trace-mapping@0.3.9", "", { "dependencies": { "@jridgewell/resolve-uri": "^3.0.3", "@jridgewell/sourcemap-codec": "^1.4.10" } }, "sha512-3Belt6tdc8bPgAtbcmdtNJlirVoTmEb5e2gC94PnkwEW9jI6CAHUeoG85tjWP5WquqfavoMtMwiG4P926ZKKuQ=="],
-
-    "@loopkit/nestjs": ["@loopkit/nestjs@workspace:packages/nestjs"],
-
-    "@loopkit/react": ["@loopkit/react@workspace:packages/react"],
 
     "@lukeed/csprng": ["@lukeed/csprng@1.1.0", "", {}, "sha512-Z7C/xXCiGWsg0KuKsHTKJxbWhpI3Vs5GwLfOean7MGyVFGqdRgBbAjOCh6u4bbjPc/8MJ2pZmK/0DLdCbivLDA=="],
 

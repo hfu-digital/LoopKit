@@ -3,7 +3,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { type ReactNode } from 'react';
 import { LoopKitProvider } from '../../src/context/LoopKitProvider';
 import { DeckTree } from '../../src/components/DeckTree';
-import { mockFetch, mockFetchResponse, mockFetchError, clearFetchMocks } from '../setup';
+import { mockFetch, mockFetchRoute, mockFetchError, clearFetchMocks } from '../setup';
 
 function wrapper({ children }: { children: ReactNode }) {
     return (
@@ -42,13 +42,13 @@ describe('DeckTree', () => {
 
     it('renders loading state', () => {
         // Don't provide a response so it stays loading
-        mockFetchResponse(mockTree);
+        mockFetchRoute('/decks/tree', mockTree);
         render(<DeckTree onDeckSelect={() => {}} />, { wrapper });
         // Initially shows loading (before fetch resolves)
     });
 
     it('renders tree hierarchy', async () => {
-        mockFetchResponse(mockTree);
+        mockFetchRoute('/decks/tree', mockTree);
         render(<DeckTree onDeckSelect={() => {}} />, { wrapper });
 
         expect(await screen.findByText('Parent Deck')).toBeInTheDocument();
@@ -56,7 +56,7 @@ describe('DeckTree', () => {
     });
 
     it('calls onDeckSelect when clicking a deck', async () => {
-        mockFetchResponse(mockTree);
+        mockFetchRoute('/decks/tree', mockTree);
         const onSelect = vi.fn();
         render(<DeckTree onDeckSelect={onSelect} />, { wrapper });
 
