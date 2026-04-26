@@ -1,6 +1,6 @@
 {
     "name": "@hfu.digital/loopkit-react",
-    "version": "2026.05.1",
+    "version": "2026.04.2",
     "description": "React hooks and components for LoopKit flashcard engine — headless-first with pre-styled defaults",
     "type": "module",
     "main": "dist/loopkit-react.cjs",
