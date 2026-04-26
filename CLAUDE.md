@@ -116,4 +116,13 @@ Key layers:
 ## CI/CD
 
 - **CI** (`.github/workflows/ci.yml`): Runs on push to main/dev and PRs — `bun install --frozen-lockfile`, build, lint, test
-- **Publish** (`.github/workflows/publish.yml`): Triggered by `v*` tags — builds, tests, then publishes both packages to npm
+- **Publish** (`.github/workflows/publish.yml`): Triggered by `v*` tags — validates CalVer tag, builds, tests, then publishes both packages to npm
+
+## Versioning
+
+All `@hfu.digital` Kit packages (CourseKit, RoomKit, LoopKit, BoardKit) use **CalVer** in the form `yyyy.mm.version` — e.g., `2026.04.1`, `2026.04.2`, `2026.05.1`.
+
+- The first release of each calendar month bumps `version` to `1`.
+- Within a month, increments go `1, 2, 3, ...`.
+- Versions are **not semver-comparable**. Downstream consumers should pin **exact** versions and update intentionally — range operators (`^`, `~`) do not carry their usual semantics.
+- Git tags must match the regex `^v[0-9]{4}\.(0[1-9]|1[0-2])\.[0-9]+$`. The publish workflow's `validate-tag` job rejects malformed tags before any build runs.
