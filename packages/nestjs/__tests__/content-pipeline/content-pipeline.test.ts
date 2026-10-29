@@ -26,13 +26,21 @@ const basicTemplate: TemplateDef = {
 };
 
 describe('ContentPipeline', () => {
+    it('sanitizes untrusted fields and templates in the default and empty pipelines', () => {
+        for (const pipeline of [createContentPipeline(), createContentPipeline([])]) {
+            const note = makeNote({ Front: '<script>bad()</script><b onclick="bad()">safe</b>', Back: '<a href="javascript:bad()">answer</a>' });
+            const rendered = pipeline.render(note, { ...basicTemplate, front: '<iframe src="https://bad.invalid"></iframe>{{Front}}' });
+            expect(rendered.front).toBe('<b>safe</b>');
+            expect(rendered.back).not.toMatch(/script|onclick|javascript|iframe/);
+        }
+    });
     it('renders a basic card', () => {
         const pipeline = createContentPipeline();
         const note = makeNote({ Front: 'Question?', Back: 'Answer!' });
         const rendered = pipeline.render(note, basicTemplate);
 
         expect(rendered.front).toBe('Question?');
-        expect(rendered.back).toBe('Question?<hr>Answer!');
+        expect(rendered.back).toBe('Question?<hr />Answer!');
     });
 
     it('applies custom transforms', () => {
@@ -72,7 +80,7 @@ describe('ContentPipeline', () => {
         const withHint = makeNote({ Front: 'Q', Back: 'A', Hint: 'H' });
         const withoutHint = makeNote({ Front: 'Q', Back: 'A' });
 
-        expect(pipeline.render(withHint, template).front).toBe('Q<br>Hint: H');
+        expect(pipeline.render(withHint, template).front).toBe('Q<br />Hint: H');
         expect(pipeline.render(withoutHint, template).front).toBe('Q');
     });
 

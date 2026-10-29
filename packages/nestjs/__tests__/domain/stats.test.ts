@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import {
     reviewsPerDay,
     retentionRate,
@@ -220,4 +220,23 @@ describe('sessionSummary', () => {
         expect(result.averageTimeMs).toBe(5000);
         expect(result.retention).toBe(0.5);
     });
+});
+
+it('computes streaks from unsorted repeated reviews without sorting the logs', () => {
+    const today = new Date();
+    today.setHours(12, 0, 0, 0);
+    const yesterday = new Date(today); yesterday.setDate(today.getDate() - 1);
+    const logs = [makeLog({ reviewedAt: yesterday }), makeLog({ reviewedAt: today }), makeLog({ reviewedAt: yesterday })];
+    const original = [...logs];
+    const lengths: number[] = [];
+    const sort = Array.prototype.sort;
+    const spy = vi.spyOn(Array.prototype, 'sort').mockImplementation(function (this: unknown[], compare) {
+        lengths.push(this.length);
+        return sort.call(this, compare);
+    });
+    let streak: number;
+    try { streak = studyStreak(logs); } finally { spy.mockRestore(); }
+    expect(streak).toBe(2);
+    expect(lengths).toEqual([2]); // Only distinct study days are sorted.
+    expect(logs).toEqual(original);
 });

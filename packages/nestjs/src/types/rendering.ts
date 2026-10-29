@@ -1,7 +1,9 @@
 import type { CardState } from './entities';
 
 export interface RenderedCard {
+    /** HTML for direct rendering. Custom pipelines must sanitize their final output. */
     front: string;
+    /** Same sanitized-HTML contract as front. */
     back: string;
 }
 

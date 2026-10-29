@@ -65,6 +65,29 @@ export class DeckService {
             }
         }
 
+        // Aggregate direct counts bottom-up once. Detect malformed cycles instead of recursing forever.
+        if (this.storage.countByDeck) {
+            const direct = await this.storage.countByDeck([...deckMap.keys()]);
+            const visiting = new Set<string>();
+            const complete = new Set<string>();
+            const aggregate = (node: DeckTreeNode): NonNullable<DeckTreeNode['counts']> => {
+                if (complete.has(node.id)) return node.counts!;
+                if (visiting.has(node.id)) throw new Error('Cyclic deck hierarchy');
+                visiting.add(node.id);
+                const counts = { new: 0, learning: 0, review: 0, relearning: 0, total: 0, ...direct.get(node.id) };
+                for (const child of node.children) {
+                    const sub = aggregate(child);
+                    for (const key of ['new', 'learning', 'review', 'relearning', 'total'] as const) counts[key] += sub[key];
+                }
+                visiting.delete(node.id);
+                complete.add(node.id);
+                node.counts = counts;
+                return counts;
+            };
+            for (const node of deckMap.values()) aggregate(node);
+            return roots;
+        }
+        // Legacy adapters retain their original count semantics.
         // Attach counts
         for (const [deckId, node] of deckMap) {
             const descendantIds = await this.storage.getDescendantDeckIds(deckId);

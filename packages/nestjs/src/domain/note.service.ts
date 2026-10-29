@@ -48,18 +48,17 @@ export class NoteService {
         if (!hasGenerated) return;
 
         // Find every deck that currently holds cards for this note
-        const allDecks = await this.storage.findDecks();
         const deckCardMap = new Map<string, { id: string; templateId: string; cardOrdinal: number }[]>();
-        for (const deck of allDecks) {
-            const deckCards = await this.storage.findCards(deck.id);
-            const noteCards = deckCards.filter((c) => c.noteId === note.id);
-            if (noteCards.length > 0) {
-                deckCardMap.set(deck.id, noteCards.map((c) => ({
-                    id: c.id,
-                    templateId: c.templateId,
-                    cardOrdinal: c.cardOrdinal,
-                })));
+        const noteCards = this.storage.findCardsByNote ? await this.storage.findCardsByNote(note.id) : [];
+        if (!this.storage.findCardsByNote) {
+            for (const deck of await this.storage.findDecks()) {
+                noteCards.push(...(await this.storage.findCards(deck.id)).filter((card) => card.noteId === note.id));
             }
+        }
+        for (const card of noteCards) {
+            const group = deckCardMap.get(card.deckId) ?? [];
+            group.push(card);
+            deckCardMap.set(card.deckId, group);
         }
 
         for (const [deckId, existing] of deckCardMap.entries()) {

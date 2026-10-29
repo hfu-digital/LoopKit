@@ -163,3 +163,30 @@ describe('NoteService', () => {
         });
     });
 });
+
+
+describe('generated note lookup accelerator', () => {
+    for (const accelerated of [true, false]) {
+        it(`reconciles note cards with ${accelerated ? 'optional method' : 'legacy fallback'}`, async () => {
+            const storage = createMockStorage();
+            const note = makeNote();
+            storage.updateNote.mockResolvedValue(note);
+            storage.getNoteType.mockResolvedValue({...basicNoteType, fields:[{name:'Front',ordinal:0,type:'cloze',required:true}]});
+            storage.findDecks.mockResolvedValue([{id:'d'}]);
+            const card = {id:'orphan',noteId:note.id,deckId:'d',templateId:'old',cardOrdinal:1};
+            storage.findCards.mockResolvedValue([card]);
+            const findCardsByNote = vi.fn(async () => [card]);
+            if (accelerated) Object.assign(storage,{findCardsByNote});
+            const generator = {generateCardsForNote: vi.fn(() => [])};
+            const decks = {getEffectiveConfig: vi.fn(async () => DEFAULT_DECK_CONFIG)};
+            const service = new NoteService(storage as unknown as LoopKitStorage, generator as unknown as CardGenerator, decks as unknown as DeckService);
+            await service.updateNote(note.id,{fields:note.fields});
+            expect(storage.deleteCard).toHaveBeenCalledWith('orphan');
+            if (accelerated) {
+                expect(findCardsByNote).toHaveBeenCalledWith(note.id);
+                expect(storage.findDecks).not.toHaveBeenCalled();
+                expect(storage.findCards).not.toHaveBeenCalled();
+            } else expect(storage.findCards).toHaveBeenCalledWith('d');
+        });
+    }
+});

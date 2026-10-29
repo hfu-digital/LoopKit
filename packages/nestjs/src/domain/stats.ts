@@ -59,12 +59,8 @@ export function deckBreakdown(cards: CardBase[]): {
 export function studyStreak(logs: ReviewLog[], nextDayStartsAt = 4): number {
     if (logs.length === 0) return 0;
 
-    const sortedLogs = [...logs].sort(
-        (a, b) => b.reviewedAt.getTime() - a.reviewedAt.getTime(),
-    );
-
     const daysStudied = new Set<string>();
-    for (const log of sortedLogs) {
+    for (const log of logs) {
         const dayStart = getDayStart(log.reviewedAt, nextDayStartsAt);
         daysStudied.add(dateKey(dayStart));
     }

@@ -72,7 +72,7 @@ export class ImportExportService {
 
         const rows: Record<string, string>[] = [];
         for (const note of notes.values()) {
-            const row: Record<string, string> = {};
+            const row: Record<string, string> = Object.create(null);
             for (const field of note.fields) {
                 row[field.name] = field.value;
             }
@@ -80,7 +80,9 @@ export class ImportExportService {
             rows.push(row);
         }
 
-        return Papa.unparse(rows);
+        // CSV is a human-facing spreadsheet format. Neutralize formula prefixes
+        // in headers, note fields and tags; use JSON for lossless interchange.
+        return Papa.unparse(rows, { escapeFormulae: true });
     }
 
     async importJSON(data: LoopKitExportData): Promise<ImportResult> {
@@ -219,7 +221,12 @@ export class ImportExportService {
             noteTypes.push(await this.storage.getNoteType(ntId));
         }
 
-        const presets: DeckPreset[] = await this.storage.findPresets();
+        // An export must not disclose unrelated presets from a shared adapter.
+        const presets: DeckPreset[] = [];
+        const presetIds = new Set(decks.flatMap((d) => d.presetId ? [d.presetId] : []));
+        for (const presetId of presetIds) {
+            presets.push(await this.storage.getPreset(presetId));
+        }
 
         const data: LoopKitExportData = {
             version: '1.0.0',

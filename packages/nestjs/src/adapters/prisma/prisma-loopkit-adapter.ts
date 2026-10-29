@@ -149,6 +149,35 @@ export class PrismaLoopKitAdapter extends LoopKitStorage {
         super();
     }
 
+    async findCardsByNote(noteId: string): Promise<CardBase[]> {
+        return (await this.prisma.loopKitCard.findMany({ where: { noteId } })).map(mapCard);
+    }
+
+    async getNotes(ids: string[]): Promise<NoteBase[]> {
+        return (await this.prisma.loopKitNote.findMany({ where: { id: { in: ids } } })).map(mapNote);
+    }
+
+    async countByDeck(deckIds: string[]): Promise<Map<string, DeckCounts>> {
+        const result = new Map<string, DeckCounts>();
+        if (!deckIds.length) return result;
+        const delegate = this.prisma.loopKitCard;
+        if (!delegate.groupBy) {
+            // Structural delegates predating aggregation still work, without fetching full cards.
+            for (const id of deckIds) result.set(id, await this.countByState([id]));
+            return result;
+        }
+        const groups = await delegate.groupBy({ by: ['deckId', 'state'], where: { deckId: { in: deckIds } }, _count: { _all: true } });
+        for (const group of groups) {
+            const counts = result.get(group.deckId) ?? { new: 0, learning: 0, review: 0, relearning: 0, total: 0 };
+            if (group.state === 'new' || group.state === 'learning' || group.state === 'review' || group.state === 'relearning') {
+                counts[group.state] += group._count._all;
+                counts.total += group._count._all;
+            }
+            result.set(group.deckId, counts);
+        }
+        return result;
+    }
+
     // ─── Card Operations ─────────────────────────────────────────────
 
     async createCard(input: CreateCardInput): Promise<CardBase> {
@@ -435,14 +464,23 @@ export class PrismaLoopKitAdapter extends LoopKitStorage {
     }
 
     async getDescendantDeckIds(deckId: string): Promise<string[]> {
+        const decks = await this.prisma.loopKitDeck.findMany({});
+        const children = new Map<string, string[]>();
+        for (const deck of decks) {
+            const group = children.get(deck.parentDeckId) ?? [];
+            group.push(deck.id);
+            children.set(deck.parentDeckId, group);
+        }
         const result: string[] = [];
-        const children = await this.prisma.loopKitDeck.findMany({
-            where: { parentDeckId: deckId },
-        });
-        for (const child of children) {
-            result.push(child.id);
-            const grandchildren = await this.getDescendantDeckIds(child.id);
-            result.push(...grandchildren);
+        const seen = new Set([deckId]);
+        const stack = [...(children.get(deckId) ?? [])].reverse();
+        while (stack.length) {
+            const id = stack.pop()!;
+            if (seen.has(id)) continue;
+            seen.add(id);
+            result.push(id);
+            const next = children.get(id) ?? [];
+            for (let i = next.length - 1; i >= 0; i--) stack.push(next[i]);
         }
         return result;
     }
