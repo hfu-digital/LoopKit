@@ -4,6 +4,7 @@
  */
 
 export type PrismaDelegate<T = any> = {
+    groupBy?: (args: { by: string[]; where?: any; _count: { _all: true } }) => Promise<Array<{ deckId: string; state: string; _count: { _all: number } }>>;
     create: (args: { data: any; include?: any }) => Promise<T>;
     createMany: (args: { data: any[] }) => Promise<{ count: number }>;
     findUnique: (args: { where: any; include?: any }) => Promise<T | null>;

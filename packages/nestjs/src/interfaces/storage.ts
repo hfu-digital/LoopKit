@@ -29,6 +29,11 @@ import type {
  * Uses structural typing — no imports from specific ORMs.
  */
 export abstract class LoopKitStorage<TCard extends CardBase = CardBase> {
+    /** Optional accelerators; legacy adapters remain supported. Counts are direct, not subtree totals. */
+    countByDeck?(deckIds: string[]): Promise<Map<string, DeckCounts>>;
+    findCardsByNote?(noteId: string): Promise<TCard[]>;
+    getNotes?(ids: string[]): Promise<NoteBase[]>;
+
     // ─── Card Operations ─────────────────────────────────────────────
 
     abstract createCard(input: CreateCardInput): Promise<TCard>;

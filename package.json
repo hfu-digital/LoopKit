@@ -1,22 +1,36 @@
 {
-    "name": "loopkit",
-    "private": true,
-    "workspaces": [
-        "packages/*",
-        "examples/*"
-    ],
-    "scripts": {
-        "build": "turbo run build",
-        "dev": "turbo run dev",
-        "lint": "turbo run lint",
-        "test": "turbo run test",
-        "check": "turbo run check",
-        "clean": "turbo run clean"
-    },
-    "devDependencies": {
-        "turbo": "^2.4.0",
-        "typescript": "^5.7.0",
-        "prettier": "^3.4.0"
-    },
-    "packageManager": "bun@1.2.0"
+  "name": "loopkit",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "examples/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "check": "turbo run check",
+    "clean": "turbo run clean"
+  },
+  "devDependencies": {
+    "turbo": "^2.11.10",
+    "typescript": "^5.9.3",
+    "prettier": "^3.9.10"
+  },
+  "packageManager": "bun@1.4.2",
+  "overrides": {
+    "fastify@^5": "5.12.7",
+    "path-to-regexp@^8": "8.4.2",
+    "minimatch@^3": "3.1.4",
+    "minimatch@^5": "5.1.8",
+    "ajv@^6": "6.14.0",
+    "ajv@^8": "8.18.0",
+    "postcss@^8": "8.5.32",
+    "nanoid@^3": "3.3.18",
+    "yaml@^2": "2.9.1",
+    "effect@^3": "3.21.0",
+    "find-my-way@^9": "9.7.0",
+    "deepmerge-ts@7.1.5": "8.0.0"
+  }
 }

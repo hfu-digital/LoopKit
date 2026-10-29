@@ -199,6 +199,19 @@ const pipeline = createContentPipeline([
 LoopKitModule.register({ storage: adapter, contentPipeline: pipeline });
 ```
 
+## Import/export trust boundary
+
+The host must authorize every deck, descendant, note, note type and review-log
+read or mutation and provide appropriately scoped storage. The domain service does
+not authenticate a principal. `importJSON` preserves supplied IDs and relationships
+for trusted backup restoration; never expose it directly to untrusted HTTP input.
+User uploads need host-owned ID remapping and relationship validation.
+
+`exportJSON` includes only presets referenced by the exported deck hierarchy.
+`exportCSV` is intended for opening in spreadsheets: formula-leading headers,
+values and tags are prefixed with an apostrophe. Use JSON for exact roundtrips;
+reimporting spreadsheet-safe CSV intentionally retains that apostrophe.
+
 ## License
 
 MIT

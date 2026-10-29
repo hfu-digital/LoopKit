@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { DeckService } from '../../src/domain/deck.service';
 import { createMockStorage } from '../helpers/mock-storage';
 import type { LoopKitStorage } from '../../src/interfaces/storage';
@@ -182,5 +182,26 @@ describe('DeckService', () => {
 
             expect(config.startingEaseFactor).toBe(1.3); // clamped
         });
+    });
+});
+
+describe('batched deck counts', () => {
+    it('aggregates subtrees with one optional adapter call and no descendant queries', async () => {
+        const storage = createMockStorage();
+        storage.findDecks.mockResolvedValue([makeDeck({ id: 'a' }), makeDeck({ id: 'b', parentDeckId: 'a' })]);
+        const countByDeck = vi.fn(async () => new Map([['b', { new: 2, learning: 0, review: 3, relearning: 0, total: 5 }]]));
+        const service = new DeckService(Object.assign(storage, { countByDeck }) as unknown as LoopKitStorage);
+        const tree = await service.getDeckTree();
+        expect(tree[0].counts?.total).toBe(5);
+        expect(tree[0].children[0].counts?.new).toBe(2);
+        expect(countByDeck).toHaveBeenCalledTimes(1);
+        expect(storage.getDescendantDeckIds).not.toHaveBeenCalled();
+        expect(storage.countByState).not.toHaveBeenCalled();
+    });
+    it('rejects cycles with the optional count adapter', async () => {
+        const storage = createMockStorage();
+        storage.findDecks.mockResolvedValue([makeDeck({ parentDeckId: 'deck-1' })]);
+        const service = new DeckService(Object.assign(storage, { countByDeck: async () => new Map() }) as unknown as LoopKitStorage);
+        await expect(service.getDeckTree()).rejects.toThrow('Cyclic deck hierarchy');
     });
 });

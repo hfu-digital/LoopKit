@@ -1,6 +1,7 @@
 import type { NoteBase, TemplateDef } from '../../types/entities';
 import type { RenderedCard, ContentTransform, RenderContext } from '../../types/rendering';
 import { interpolateTemplate } from './template-interpolation';
+import sanitizeHtml from 'sanitize-html';
 
 export interface RenderOptions {
     /** 1-indexed cloze/occlusion target. Required for Cloze and Image-Occlusion notes. */
@@ -21,13 +22,16 @@ export interface ContentPipeline {
  * available as optional peer dependencies. Pass them in via the transforms array.
  *
  * The pipeline always includes template interpolation as the first step.
+ * With no transforms (or an empty list), HTML is sanitized by default.
+ * Explicit custom pipelines own their output policy and MUST finish with a
+ * sanitize transform before returning user-authored HTML to a CardViewer.
  */
 export function createContentPipeline(transforms?: ContentTransform[]): ContentPipeline {
     const pipeline: ContentPipeline = {
-        transforms: transforms ?? [],
+        transforms: transforms?.length ? transforms : [createSanitizeTransform(sanitizeHtml)],
 
         render(note: NoteBase, template: TemplateDef, options?: RenderOptions): RenderedCard {
-            const fields: Record<string, string> = {};
+            const fields: Record<string, string> = Object.create(null);
             for (const field of note.fields) {
                 fields[field.name] = field.value;
             }

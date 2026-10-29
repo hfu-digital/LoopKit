@@ -107,6 +107,32 @@ describe('ImportExportService', () => {
     });
 
     describe('exportCSV', () => {
+        it('neutralizes spreadsheet formulas in headers, values and tags', async () => {
+            const dangerous = ['=1+1', '+1+1', '-1+1', '@SUM(1)', '\t=1+1', '\r=1+1'];
+            storage.findCards.mockResolvedValue([makeCard()]);
+            storage.getNote.mockResolvedValue(makeNote({
+                fields: dangerous.map((value, ordinal) => ({ name: value, value, ordinal })),
+                tags: ['=HYPERLINK("https://example.invalid")'],
+            }));
+            const Papa = await import('papaparse');
+            const rows = Papa.parse<string[]>(await service.exportCSV('deck-1')).data;
+            expect(rows[0]!.slice(0, -1)).toEqual(dangerous.map(value => "'" + value));
+            expect(rows[1]!.slice(0, -1)).toEqual(dangerous.map(value => "'" + value));
+            expect(rows[1]!.at(-1)).toBe('\'=HYPERLINK("https://example.invalid")');
+        });
+
+        it('preserves special field names as own columns without prototype mutation', async () => {
+            storage.findCards.mockResolvedValue([makeCard()]);
+            storage.getNote.mockResolvedValue(makeNote({ fields: [
+                { name: '__proto__', value: 'safe value', ordinal: 0 },
+                { name: 'constructor', value: 'another value', ordinal: 1 },
+            ] }));
+            const Papa = await import('papaparse');
+            const rows = Papa.parse<string[]>(await service.exportCSV('deck-1')).data;
+            expect(rows[0]).toEqual(['__proto__', 'constructor', 'tags']);
+            expect(rows[1]).toEqual(['safe value', 'another value', 'test']);
+        });
+
         it('exports unique notes as CSV rows', async () => {
             const card1 = makeCard({ id: 'c1', noteId: 'n1' });
             const card2 = makeCard({ id: 'c2', noteId: 'n2' });
@@ -196,8 +222,21 @@ describe('ImportExportService', () => {
     });
 
     describe('exportJSON', () => {
+        it('exports only presets referenced by the requested deck hierarchy', async () => {
+            storage.getDeck.mockImplementation(async (id: string) => makeDeck({ id, presetId: 'shared-preset' }));
+            storage.getDescendantDeckIds.mockResolvedValue(['child']);
+            storage.findCards.mockResolvedValue([]);
+            const preset = { id: 'shared-preset', name: 'Relevant', config: DEFAULT_DECK_CONFIG, createdAt: now, updatedAt: now };
+            storage.getPreset.mockResolvedValue(preset);
+            storage.findPresets.mockResolvedValue([{ ...preset, id: 'other-user-secret' }]);
+            const result = await service.exportJSON('deck-1');
+            expect(result.presets).toEqual([preset]);
+            expect(storage.getPreset).toHaveBeenCalledExactlyOnceWith('shared-preset');
+            expect(storage.findPresets).not.toHaveBeenCalled();
+        });
+
         it('exports deck with all related entities', async () => {
-            const deck = makeDeck({ id: 'deck-1' });
+            const deck = makeDeck({ id: 'deck-1', presetId: 'p1' });
             const card = makeCard({ id: 'c1', noteId: 'n1' });
             const note = makeNote({ id: 'n1', noteTypeId: 'nt-1' });
             const preset: DeckPreset = {
@@ -209,7 +248,7 @@ describe('ImportExportService', () => {
             storage.findCards.mockResolvedValue([card]);
             storage.getNote.mockResolvedValue(note);
             storage.getNoteType.mockResolvedValue(basicNoteType);
-            storage.findPresets.mockResolvedValue([preset]);
+            storage.getPreset.mockResolvedValue(preset);
 
             const data = await service.exportJSON('deck-1');
 
